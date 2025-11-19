@@ -1,0 +1,95 @@
+// Classe Abstrata Vendedor.java
+
+public abstract class Vendedor {
+    private String nome;
+    private double vendas;
+
+    public Vendedor(String nome, double vendas) {
+        this.nome = nome;
+        this.vendas = vendas;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public double getVendas() {
+        return vendas;
+    }
+
+    public abstract double calcularComissao();
+
+    @Override
+    public String toString() {
+        return nome + " - Comissão: R$ " + calcularComissao();
+    }
+}
+
+// VendedorJunior.java
+
+public class VendedorJunior extends Vendedor {
+
+    public VendedorJunior(String nome, double vendas) {
+        super(nome, vendas);
+    }
+
+    @Override
+    public double calcularComissao() {
+        return getVendas() * 0.05;
+    }
+}
+
+// VendedorSenior.java
+
+public class VendedorSenior extends Vendedor {
+
+    public VendedorSenior(String nome, double vendas) {
+        super(nome, vendas);
+    }
+
+    @Override
+    public double calcularComissao() {
+        double base = getVendas() * 0.08;
+
+        int metasExcedidas = (int)(getVendas() / 10000.0); 
+        double bonus = metasExcedidas * 500.0;
+
+        return base + bonus;
+    }
+}
+
+// GerenteComercial.java
+
+public class GerenteComercial extends Vendedor {
+
+    private double totalEquipe; // total vendido pela equipe sob sua supervisão
+
+    public GerenteComercial(String nome, double vendas, double totalEquipe) {
+        super(nome, vendas);
+        this.totalEquipe = totalEquipe;
+    }
+
+    @Override
+    public double calcularComissao() {
+        return 3000.0 + (totalEquipe * 0.02);
+    }
+}
+
+// Main.java — Lista Polimórfica
+
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+
+        ArrayList<Vendedor> vendedores = new ArrayList<>();
+
+        vendedores.add(new VendedorJunior("Lucas", 8000));
+        vendedores.add(new VendedorSenior("Marina", 25000));
+        vendedores.add(new GerenteComercial("Roberto", 0, 60000));
+
+        for (Vendedor v : vendedores) {
+            System.out.println(v);
+        }
+    }
+}
