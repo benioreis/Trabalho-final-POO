@@ -1,0 +1,41 @@
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class Pergunta3 {
+
+    public static void main(String[] args) {
+
+        Scanner teclado = new Scanner(System.in);
+
+        try {
+            System.out.println("=== Divisão de dois números ===");
+
+            // Entrada do primeiro número
+            System.out.print("Informe o penúltimo número do seu celular: ");
+            int x = teclado.nextInt();
+
+            // Entrada do segundo número
+            System.out.print("Informe o último dígito do seu celular: ");
+            int y = teclado.nextInt();
+
+            // Tratamento de divisão
+            double r = x / y;
+
+            System.out.println("O resultado da divisão é: " + r);
+
+        } 
+        catch (InputMismatchException e) {
+            System.out.println("Erro: Você digitou um valor que não é número inteiro!");
+        } 
+        catch (ArithmeticException e) {
+            System.out.println("Erro: Não é possível dividir por zero!");
+        } 
+        catch (Exception e) {
+            System.out.println("Ocorreu um erro inesperado: " + e.getMessage());
+        } 
+        finally {
+            System.out.println("Finalizando o programa...");
+            teclado.close();
+        }
+    }
+}
