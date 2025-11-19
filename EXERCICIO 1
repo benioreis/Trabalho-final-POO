@@ -1,0 +1,88 @@
+// Classe Abstrata: Professor.java
+
+public abstract class Professor {
+    private String nome;
+
+    public Professor(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public abstract double calcularPagamento();
+
+    @Override
+    public String toString() {
+        return nome + " - Pagamento: R$ " + calcularPagamento();
+    }
+}
+
+// ProfessorHorista.java
+
+public class ProfessorHorista extends Professor {
+    private int horas;
+
+    public ProfessorHorista(String nome, int horas) {
+        super(nome);
+        this.horas = Math.min(horas, 160); // máximo 160h
+    }
+
+    @Override
+    public double calcularPagamento() {
+        return horas * 85.0;
+    }
+}
+
+// ProfessorDedEx.java
+
+public class ProfessorDedEx extends Professor {
+    private String titulacao; // "mestre" ou "doutor"
+
+    public ProfessorDedEx(String nome, String titulacao) {
+        super(nome);
+        this.titulacao = titulacao;
+    }
+
+    @Override
+    public double calcularPagamento() {
+        double base = 8000.0;
+        if (titulacao.equalsIgnoreCase("mestre") || titulacao.equalsIgnoreCase("doutor")) {
+            base += 1500.0;
+        }
+
+// ProfessorPesquisador.java
+
+public class ProfessorPesquisador extends Professor {
+    private int projetosAtivos;
+
+    public ProfessorPesquisador(String nome, int projetosAtivos) {
+        super(nome);
+        this.projetosAtivos = projetosAtivos;
+    }
+
+    @Override
+    public double calcularPagamento() {
+        return 5000.0 + (projetosAtivos * 2000.0);
+    }
+}
+
+// Main.java Lista Heterogênea e Teste
+
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+
+        ArrayList<Professor> professores = new ArrayList<>();
+
+        professores.add(new ProfessorHorista("Carlos", 120));
+        professores.add(new ProfessorDedEx("Marina", "mestre"));
+        professores.add(new ProfessorPesquisador("João", 3));
+
+        for (Professor p : professores) {
+            System.out.println(p);
+        }
+    }
+}
